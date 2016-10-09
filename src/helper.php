@@ -1,20 +1,13 @@
 <?php
-
 use think\Hook;
 use think\Config;
-use think\Log;
-use think\Cache;
-use think\Db;
 use think\Route;
 // 插件目录
 define('ADDON_PATH', ROOT_PATH . 'addons' . DS);
-define('ADDON_STATIC', ROOT_PATH . 'public' . DS. 'addons' . DS);
+define('ADDON_STATIC', ROOT_PATH . 'public' . DS . 'addons' . DS);
 
 // 定义路由
 Route::get('addons/execute', "\\think\\addons\\AddonsController@execute");
-Route::domain('www', function () {
-    Route::get('addons/execute', "\\think\\addons\\AddonsController@execute");
-});
 // 如果插件目录不存在则创建
 if (! is_dir(ADDON_PATH)) {
     mkdir(ADDON_PATH, 0777, true);
@@ -26,8 +19,10 @@ Hook::add('app_init', 'think\addons\AppInit');
 
 /**
  * 获取插件类的类名
- * @param $name 插件名
- * @param string $type 返回命名空间类型
+ * 
+ * @param $name 插件名            
+ * @param string $type
+ *            返回命名空间类型
  * @return string
  */
 function get_addon_class($name, $type = 'hook')
@@ -44,7 +39,9 @@ function get_addon_class($name, $type = 'hook')
 
 /**
  * 获取插件类的配置文件数组
- * @param string $name 插件名
+ * 
+ * @param string $name
+ *            插件名
  * @return array
  */
 function get_addon_config($name)
@@ -57,28 +54,33 @@ function get_addon_config($name)
         return [];
     }
 }
+
 /**
  * 插件显示内容里生成访问插件的url
- * @param string $url url
- * @param array $param 参数
+ * 
+ * @param string $url
+ *            url
+ * @param array $param
+ *            参数
  */
-function addons_url($url, $param = array()){
-    $url        = parse_url($url);
-    $case       = Config::get('url_convert');
-    $addons     = $case ? Loader::parse_name($url['scheme']) : $url['scheme'];
+function addons_url($url, $param = array())
+{
+    $url = parse_url($url);
+    $case = Config::get('url_convert');
+    $addons = $case ? Loader::parse_name($url['scheme']) : $url['scheme'];
     $controller = $case ? Loader::parse_name($url['host']) : $url['host'];
-    $action     = trim($case ? strtolower($url['path']) : $url['path'], '/');
+    $action = trim($case ? strtolower($url['path']) : $url['path'], '/');
     /* 解析URL带的参数 */
-    if(isset($url['query'])){
+    if (isset($url['query'])) {
         parse_str($url['query'], $query);
         $param = array_merge($query, $param);
     }
     /* 基础参数 */
     $params = array(
-        '_addons'     => $addons,
+        '_addons' => $addons,
         '_controller' => $controller,
-        '_action'     => $action,
+        '_action' => $action
     );
-    $params = array_merge($params, $param); //添加额外参数
+    $params = array_merge($params, $param); // 添加额外参数
     return Url::build('Addons/execute', $params);
 }
