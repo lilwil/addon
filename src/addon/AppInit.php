@@ -1,5 +1,5 @@
 <?php
-namespace think\addons;
+namespace think\addon;
 
 use think\App;
 use think\Cache;

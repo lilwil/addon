@@ -1,5 +1,5 @@
 <?php
-namespace think\addons;
+namespace think;
 
 use think\Request;
 use think\Config;
@@ -12,7 +12,7 @@ use think\Db;
 /**
  * 插件类
  */
-abstract class Addons{
+abstract class Addon{
     /**
      * 视图实例对象
      * @var view

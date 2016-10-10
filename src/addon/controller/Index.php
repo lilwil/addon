@@ -1,5 +1,5 @@
 <?php
-namespace think\addons;
+namespace think\addon\controller;
 
 use think\Controller;
 use think\Lang;
@@ -7,7 +7,7 @@ use think\Lang;
 /**
  * 插件执行默认控制器
  */
-class AddonsController extends Controller
+class Index extends Controller
 {
     // 当前插件操作
     protected $addon = null;

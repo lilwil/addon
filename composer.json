@@ -1,7 +1,7 @@
 {
-    "name": "lilwil/addons",
-    "description": "addons for think",
-    "homepage": "https://github.com/lilwil/addons",
+    "name": "lilwil/addon",
+    "description": "addon",
+    "homepage": "https://github.com/lilwil/addon",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "think\\addons\\": "src/"
+            "think\\": "src/"
         },
         "files": [
             "src/helper.php"

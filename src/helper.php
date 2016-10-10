@@ -16,7 +16,7 @@ if (! is_dir(ADDON_PATH)) {
 // 注册类的根命名空间
 \think\Loader::addNamespace('addons', ADDON_PATH);
 // 注册初始化钩子行为
-Hook::add('app_init', 'think\addons\AppInit');
+Hook::add('app_init', 'think\addon\AppInit');
 
 /**
  * 获取插件类的类名
