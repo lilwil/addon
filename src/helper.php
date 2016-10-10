@@ -2,6 +2,7 @@
 use think\Hook;
 use think\Config;
 use think\Route;
+use think\Url;
 // 插件目录
 define('ADDON_PATH', ROOT_PATH . 'addons' . DS);
 define('ADDON_STATIC', ROOT_PATH . 'public' . DS . 'addons' . DS);
@@ -63,11 +64,11 @@ function get_addon_config($name)
  * @param array $param
  *            参数
  */
-function addons_url($url, $param = array())
+function addons_url($url, $param = [])
 {
     $url = parse_url($url);
     $case = Config::get('url_convert');
-    $addons = $case ? Loader::parse_name($url['scheme']) : $url['scheme'];
+    $addon = $case ? Loader::parse_name($url['scheme']) : $url['scheme'];
     $controller = $case ? Loader::parse_name($url['host']) : $url['host'];
     $action = trim($case ? strtolower($url['path']) : $url['path'], '/');
     /* 解析URL带的参数 */
@@ -77,7 +78,7 @@ function addons_url($url, $param = array())
     }
     /* 基础参数 */
     $params = array(
-        '_addons' => $addons,
+        '_addon' => $addon,
         '_controller' => $controller,
         '_action' => $action
     );

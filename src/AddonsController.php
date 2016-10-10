@@ -6,9 +6,6 @@ use think\Lang;
 
 /**
  * 插件执行默认控制器
- * Class AddonsController
- *
- * @package think\addons
  */
 class AddonsController extends Controller
 {
