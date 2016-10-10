@@ -5,7 +5,6 @@ use think\App;
 use think\Cache;
 use think\Db;
 use think\Hook;
-use think\Log;
 // 初始化钩子信息
 class AppInit
 {
@@ -20,7 +19,7 @@ class AppInit
             foreach ($hooks as $key => $value) {
                 if ($value) {
                     $names = explode(',', $value);
-                    $data = Db::name('addons')->where('status', 1)->where('name', 'in', $names)->column('name','id');
+                    $data = Db::name('addons')->where('status', 1)->where('name', 'in', $names)->column('name', 'id');
                     if ($data) {
                         $addon = array_intersect($names, $data);
                         $addons[$key] = array_map('get_addon_class', $addon);
@@ -31,7 +30,7 @@ class AppInit
             if (empty($addons)) {
                 Cache::set('hooks', $addons);
             }
-        } else {
+        } else{
             Hook::import($data, false);
         }
     }

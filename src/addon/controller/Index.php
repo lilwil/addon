@@ -10,11 +10,11 @@ use think\Lang;
 class Index extends Controller
 {
     // 当前插件操作
-    protected $addon = null;
+    protected $addon;
 
-    protected $controller = null;
+    protected $controller;
 
-    protected $action = null;
+    protected $action;
 
     /**
      * 插件初始化
