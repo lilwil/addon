@@ -36,9 +36,9 @@ class Index extends Controller
         if (! empty($this->addon) && ! empty($this->controller) && ! empty($this->action)) {
             // 获取类的命名空间
             $class = get_addon_class($this->addon, 'controller') . "\\{$this->controller}";
-            $model = new $class();
+            $model = new $class($this->addon);
             if ($model === false) {
-                return $this->error(lang('addon init fail'));
+                return $this->error(Lang::get('addon init fail'));
             }
             // 调用操作
             return call_user_func([
