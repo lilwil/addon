@@ -72,13 +72,13 @@ abstract class Addon{
     public function __construct(Request $request = null)
     {
         // 获取当前插件目录
-        $this->addons_path = ADDON_PATH . $this->getName() . DS;
+        $this->addon_path = ADDON_PATH . $this->getName() . DS;
         // 读取当前插件配置信息
-        if (is_file($this->addons_path . 'config.php')) {
-            $this->config_file = $this->addons_path . 'config.php';
+        if (is_file($this->addon_path . 'config.php')) {
+            $this->config_file = $this->addon_path . 'config.php';
         }
         // 初始化视图模型
-        $this->config['view_path'] = $this->addons_path;
+        $this->config['view_path'] = $this->addon_path;
         $this->initTplReplaceString();
         $config = array_merge(Config::get('template'), $this->config);
         $this->view = new View($config, Config::get('view_replace_str'));
