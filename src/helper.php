@@ -9,13 +9,13 @@ define('ADDON_PATH', ROOT_PATH . 'addons' . DS);
 define('ADDON_STATIC', ROOT_PATH . 'public' . DS . 'addons' . DS);
 
 // 定义路由
-Route::get('addon/execute', "\\think\\addon\\controller\\Index@execute");
+Route::rule('addon/execute', "\\think\\addon\\controller\\Index@execute");
 // 如果插件目录不存在则创建
 if (! is_dir(ADDON_PATH)) {
     mkdir(ADDON_PATH, 0777, true);
 }
 // 注册类的根命名空间
-\think\Loader::addNamespace('addons', ADDON_PATH);
+Loader::addNamespace('addons', ADDON_PATH);
 // 注册初始化钩子行为
 Hook::add('app_init', 'think\addon\AppInit');
 
