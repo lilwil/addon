@@ -3,6 +3,7 @@ use think\Hook;
 use think\Config;
 use think\Route;
 use think\Url;
+use think\Loader;
 // 插件目录
 define('ADDON_PATH', ROOT_PATH . 'addons' . DS);
 define('ADDON_STATIC', ROOT_PATH . 'public' . DS . 'addons' . DS);
