@@ -62,8 +62,8 @@ function addons_url($url, $param = [])
 {
     $url = parse_url($url);
     $case = Config::get('url_convert');
-    $addon = $case ? Loader::parse_name($url['scheme']) : $url['scheme'];
-    $controller = $case ? Loader::parse_name($url['host']) : $url['host'];
+    $addon = $case ? Loader::parseName($url['scheme']) : $url['scheme'];
+    $controller = $case ? Loader::parseName($url['host']) : $url['host'];
     $action = trim($case ? strtolower($url['path']) : $url['path'], '/');
     /* 解析URL带的参数 */
     if (isset($url['query'])) {
