@@ -4,6 +4,7 @@ namespace think\addon\controller;
 use think\Controller;
 use think\Lang;
 use think\Loader;
+use think\Log;
 
 /**
  * 插件执行默认控制器
@@ -22,8 +23,13 @@ class Index extends Controller
      */
     public function _initialize()
     {
-        $this->addon = Loader::parseName($this->request->get('_addon/s', ''),1);
-        $this->controller = Loader::parseName($this->request->get('_controller/s', ''),1);
+        // 日志初始化
+        Log::init([
+            'type' => 'File',
+            'path' => RUNTIME_PATH . 'log' . DS . 'addons' . DS
+        ]);
+        $this->addon = Loader::parseName($this->request->get('_addon/s', ''), 1);
+        $this->controller = Loader::parseName($this->request->get('_controller/s', ''), 1);
         $this->action = $this->request->get('_action/s', '');
         // 加载插件语言包
         Lang::load(__DIR__ . DS . 'lang' . DS . $this->request->langset() . EXT);
