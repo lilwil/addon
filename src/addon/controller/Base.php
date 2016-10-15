@@ -101,13 +101,13 @@ class Base
     private function initTplReplaceString()
     {
         $this->view_config['tpl_replace_string'] = [
-            '__COMMON__' => __ROOT__ .'/public/static/common/',
-            '__IMG__' => __ROOT__ .'/public/addons/'.strtolower($this->addon_name).'/images/',
-            '__CSS__' => __ROOT__ .'public/addons'.DS.strtolower($this->addon_name).'css'.DS,
-            '__JS__' => __ROOT__ .'public/addons'.DS.strtolower($this->addon_name).'js'.DS,
-            '__PUBLIC__' => __ROOT__ .'public/addons'.DS.strtolower($this->addon_name).DS,
-            '__UPLOADS__' => __ROOT__ .'public/uploads'.DS,
-            '__ROOT__' => __ROOT__.DS
+            '__COMMON__' => __ROOT__ .'/static/common',
+            '__IMG__' => __ROOT__ .'/addons/'.$this->getName().'/images',
+            '__CSS__' => __ROOT__ .'/addons/'.$this->getName().'/css',
+            '__JS__' => __ROOT__ .'/addons/'.$this->getName().'/js',
+            '__PUBLIC__' => __ROOT__ .'/addons/'.$this->getName(),
+            '__UPLOADS__' => __ROOT__ .'/uploads',
+            '__ROOT__' => __ROOT__
         ];
     }
     // 初始化

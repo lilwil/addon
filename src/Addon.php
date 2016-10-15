@@ -90,6 +90,11 @@ abstract class Addon{
             $request = Request::instance();
         }
         $this->request = $request;
+        // 日志初始化
+        Log::init([
+            'type' => 'File',
+            'path' => RUNTIME_PATH . 'log' . DS . 'addons' . DS
+        ]);
     }
     /**
      * 初始化模版替换参数
@@ -97,12 +102,12 @@ abstract class Addon{
     private function initTplReplaceString()
     {
         $this->config['tpl_replace_string'] = [
-            '__COMMON__' => __ROOT__ . DS.'public'. DS.'static'. DS.'common',
-            '__IMG__' => __ROOT__ . DS.'public'. DS.'addons'.DS.$this->getName(). DS.'images',
-            '__CSS__' => __ROOT__ . DS.'public'. DS.'addons'.DS.$this->getName(). DS.'css',
-            '__JS__' => __ROOT__ . DS.'public'. DS.'addons'.DS.$this->getName(). DS.'js',
-            '__PUBLIC__' => __ROOT__ . DS.'public'. DS.'addons'.DS.$this->getName().DS,
-            '__UPLOADS__' => __ROOT__ . DS.'public'. DS.'uploads',
+            '__COMMON__' => __ROOT__ .'/static/common',
+            '__IMG__' => __ROOT__ .'/addons/'.$this->getName().'/images',
+            '__CSS__' => __ROOT__ .'/addons/'.$this->getName().'/css',
+            '__JS__' => __ROOT__ .'/addons/'.$this->getName().'/js',
+            '__PUBLIC__' => __ROOT__ .'/addons/'.$this->getName(),
+            '__UPLOADS__' => __ROOT__ .'/uploads',
             '__ROOT__' => __ROOT__
         ];
     }
