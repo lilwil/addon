@@ -90,11 +90,6 @@ abstract class Addon{
             $request = Request::instance();
         }
         $this->request = $request;
-        // 日志初始化
-        Log::init([
-            'type' => 'File',
-            'path' => RUNTIME_PATH . 'log' . DS . 'addons' . DS
-        ]);
     }
     /**
      * 初始化模版替换参数
