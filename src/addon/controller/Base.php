@@ -8,6 +8,7 @@ use think\exception\ValidateException;
 use think\Request;
 use think\View;
 use think\Loader;
+use think\Lang;
 /**
  * 插件需要继承的控制器
  */
