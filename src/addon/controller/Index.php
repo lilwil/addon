@@ -32,7 +32,7 @@ class Index extends Controller
         $this->controller = Loader::parseName($this->request->get('_controller/s', ''), 1);
         $this->action = $this->request->get('_action/s', '');
         // 加载插件语言包
-        Lang::load(__DIR__ . DS . 'lang' . DS . $this->request->langset() . EXT);
+        Lang::load(__DIR__ . DS .'..'. DS.'lang' . DS . $this->request->langset() . EXT);
     }
 
     /**
@@ -43,7 +43,7 @@ class Index extends Controller
         if (! empty($this->addon) && ! empty($this->controller) && ! empty($this->action)) {
             // 获取类的命名空间
             $class = get_addon_class($this->addon, 'controller') . "\\{$this->controller}";
-            $model = new $class($this->addon);
+            $model = new $class();
             if ($model === false) {
                 return $this->error(Lang::get('addon init fail'));
             }

@@ -69,15 +69,16 @@ class Base
      * @param Request $request Request对象
      * @access public
      */
-    public function __construct($addon_name = null,Request $request = null)
+    public function __construct(Request $request = null)
     {
-        if (!empty($addon_name)) {
-            $this->addon_name = $addon_name;
-        }else {
-            throw new \Exception(Lang::get('need addon name'));
-        }
         if (is_null($request)) {
             $request = Request::instance();
+        }
+        $this->request = $request;
+        if ($this->request->has('_addon','get')) {
+            $this->addon_name = $this->request->get('_addon');
+        }else {
+            throw new \Exception(Lang::get('need addon name'));
         }
         // 获取当前插件目录
         $this->addon_path = ADDON_PATH . strtolower($this->addon_name) . DS . 'view'.DS;
@@ -86,7 +87,6 @@ class Base
         $this->view_config['view_path'] = $this->addon_path;
 //         $this->view    = View::instance($this->view_config);
         $this->view    =  new View($this->view_config);
-        $this->request = $request;
         // 控制器初始化
         $this->_initialize();
         // 前置操作方法
