@@ -229,7 +229,18 @@ abstract class Addon{
         $_config[$name] = $config;
         return $config;
     }
-
+    /**
+     * 插件默认执行的方法
+     * @return mixed
+     */
+    final public function run()
+    {
+        if (App::$debug){
+            Log::record('[ ADDON ] 插件' . $this->getName() .'运行异常，params:'. var_export($_SERVER, true), 'error');
+        }else {
+            Log::record('[ ADDON ] 运行异常，请联系开发者！', 'error');
+        }
+    }
     /**
      * 获取当前错误信息
      * @return mixed
