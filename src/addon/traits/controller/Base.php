@@ -15,7 +15,8 @@ trait Base
     protected $addon_name;
     //当前插件路径
     protected $addon_path = '';
-
+    //当前插件的默认信息
+    protected $info;
     /**
      * @var \think\Request Request实例
      */
@@ -35,6 +36,10 @@ trait Base
         // 读取当前插件配置信息
         if (is_file($this->addon_path . 'config.php')) {
             $this->config_file = $this->addon_path . 'config.php';
+        }
+        // 读取当前插件的信息
+        if (is_file($this->addon_path . 'info.php')) {
+            $this->info = include $this->addon_path . 'info.php';
         }
         // 加载插件语言包
         Lang::load(__DIR__ . DS .'..'. DS.'lang' . DS . $this->request->langset() . EXT);
@@ -93,7 +98,11 @@ trait Base
      */
     final protected function getName($type = 0, $ucfirst = true)
     {
-        return Loader::parseName(explode('\\',get_class($this))[1],$type,$ucfirst);
+        if ($this->request->has('_addon/s')) {
+             return Loader::parseName($this->request->param('_addon/s', ''),$type,$ucfirst);
+        }else {
+            return Loader::parseName(explode('\\',get_class($this))[1],$type,$ucfirst);
+        }
     }
      
 }

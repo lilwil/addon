@@ -12,7 +12,6 @@ use think\addon\controller\Controller as BaseController;
  */
 abstract class AddonController extends BaseController{
 
-    public $info = [];
     // 参数配置所在控制器及方法
     public $custom_config = [];
 
