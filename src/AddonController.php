@@ -26,11 +26,6 @@ abstract class AddonController extends BaseController{
     // 需要的钩子列表
     public $hook_list = [];
     
-    protected function _initViewPath()
-    {
-        // 视图模型配置
-        $this->view->config('view_path',$this->addon_path);
-    }
     /**
      * 加载模板输出
      * @access protected

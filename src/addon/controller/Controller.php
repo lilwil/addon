@@ -1,5 +1,4 @@
 <?php
-
 namespace think\addon\controller;
 
 \think\Loader::import('controller/Jump', TRAIT_PATH, EXT);
@@ -9,10 +8,11 @@ use think\exception\ValidateException;
 use think\View;
 use think\Config;
 use think\addon\traits\controller\Base;
+use \traits\controller\Jump;
 
 class Controller
 {
-    use \traits\controller\Jump;
+    use Jump;
     use Base;
 
     /**
@@ -39,18 +39,18 @@ class Controller
      */
     public function __construct()
     {
-    
         if (is_null(self::$view_instance)) {
             self::$view_instance = new View(Config::get('template'), Config::get('view_replace_str'));
         }
         $this->view = self::$view_instance;
         //编译模版之前替换
         $this->view->config('tpl_replace_string',$this->tplReplaceString()); 
+        // 视图模型配置
+        $this->view->config('view_path',$this->addon_path.'view'.DS);
+        //Base初始化
         $this->_baseInit();
         // 控制器初始化
         $this->_initialize();
-        //视图模型配置
-        $this->_initViewPath();
         // 前置操作方法
         if ($this->beforeActionList) {
             foreach ($this->beforeActionList as $method => $options) {
@@ -61,15 +61,8 @@ class Controller
         }
     }
 
-    // 初始化
-    protected function _initViewPath()
-    {
-        // 视图模型配置
-        $this->view->config('view_path',$this->addon_path.'view'.DS);
-    }
     protected function _initialize()
-    {
-    }
+    {}
 
     /**
      * 前置操作
@@ -94,7 +87,6 @@ class Controller
                 return;
             }
         }
-
         call_user_func([$this, $method]);
     }
 

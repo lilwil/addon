@@ -8,7 +8,6 @@ use think\Hook;
 // 初始化钩子信息
 class AppInit
 {
-
     public function run()
     {
         // 获取系统配置

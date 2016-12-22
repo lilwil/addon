@@ -11,7 +11,7 @@ use think\Log;
 use think\Db;
 use think\addon\traits\controller\Base;
 /**
- * 插件类
+ * 插件基类，一般用于不需要模版的情况，例如：api接口
  */
 abstract class Addon{
     use Base;

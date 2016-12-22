@@ -22,7 +22,7 @@ trait Base
      */
     protected $request;
     /**
-     * 架构函数
+     * 初始化
      */
     protected function _baseInit(Request $request = null)
     {    
