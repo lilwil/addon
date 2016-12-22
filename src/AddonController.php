@@ -12,11 +12,9 @@ use think\addon\controller\Controller as BaseController;
  */
 abstract class AddonController extends BaseController{
 
-       // 参数配置所在控制器及方法
-    protected $custom_config = [
-        'controller' => 'Admin',
-        'action' => 'config'
-    ];
+     // 参数配置所在控制器及方法
+    protected $config_controller = 'Admin';
+    protected $config_action = 'config';
     protected $admin_list = [];
     // 该项跟下面在有列表情况下必选其一
     protected $custom_adminlist = '';
@@ -26,7 +24,17 @@ abstract class AddonController extends BaseController{
     protected $access_url = [];
     // 需要的钩子列表
     protected $hook_list = [];
-    
+
+    /**
+     * 获取属性
+     * @access public
+     * @param string $name 名称
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->$name;
+    }
     /**
      * 加载模板输出
      * @access protected

@@ -15,19 +15,18 @@ use think\addon\traits\controller\Base;
  */
 abstract class Addon{
     use Base;
-    // 参数配置所在控制器及方法
-    public $custom_config = [];
-
-    public $admin_list = [];
+     // 参数配置所在控制器及方法
+    protected $config_controller = 'Admin';
+    protected $config_action = 'config';
+    protected $admin_list = [];
     // 该项跟下面在有列表情况下必选其一
-    public $custom_adminlist = '';
+    protected $custom_adminlist = '';
     // view展示的fecth内容
-    public $view_fetch = '';
+    protected $view_fetch = '';
 
-    public $access_url = [];
-
+    protected $access_url = [];
     // 需要的钩子列表
-    public $hook_list = [];
+    protected $hook_list = [];
     
     public function __construct()
     {
@@ -36,6 +35,16 @@ abstract class Addon{
         if (method_exists($this, '_initialize')) {
             $this->_initialize();
         }
+    }
+    /**
+     * 获取属性
+     * @access public
+     * @param string $name 名称
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->$name;
     }
     /**
      * 检查配置信息是否完整
