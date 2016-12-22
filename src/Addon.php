@@ -15,7 +15,6 @@ use think\addon\traits\controller\Base;
  */
 abstract class Addon{
     use Base;
-    public $info = [];
     // 参数配置所在控制器及方法
     public $custom_config = [];
 
