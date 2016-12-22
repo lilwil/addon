@@ -44,6 +44,8 @@ class Controller
             self::$view_instance = new View(Config::get('template'), Config::get('view_replace_str'));
         }
         $this->view = self::$view_instance;
+        //编译模版之前替换
+        $this->view->config('tpl_replace_string',$this->tplReplaceString()); 
         $this->_baseInit();
         // 控制器初始化
         $this->_initialize();

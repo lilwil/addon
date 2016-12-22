@@ -43,8 +43,6 @@ trait Base
         }
         // 加载插件语言包
         Lang::load(__DIR__ . DS .'..'. DS.'lang' . DS . $this->request->langset() . EXT);
-        //编译模版之前替换
-        $this->view->config('tpl_replace_string',$this->tplReplaceString()); 
     }
   
     /**
