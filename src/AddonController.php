@@ -1,20 +1,17 @@
 <?php
 namespace think;
 
-use think\Request;
 use think\Config;
-use think\View;
 use think\Loader;
-use think\exception\TemplateNotFoundException;
 use think\App;
 use think\Log;
 use think\Db;
-use think\addon\traits\controller\Base;
+use think\addon\controller\Controller as BaseController;
 /**
- * 插件类
+ * 插件基类
  */
-abstract class Addon{
-    use Base;
+abstract class AddonController extends BaseController{
+
     public $info = [];
     // 参数配置所在控制器及方法
     public $custom_config = [];
@@ -30,13 +27,23 @@ abstract class Addon{
     // 需要的钩子列表
     public $hook_list = [];
     
-    public function __construct()
+    protected function _initViewPath()
     {
-        $this->_baseInit();
-        // 控制器初始化
-        if (method_exists($this, '_initialize')) {
-            $this->_initialize();
-        }
+        // 视图模型配置
+        $this->view->config('view_path',$this->addon_path);
+    }
+    /**
+     * 加载模板输出
+     * @access protected
+     * @param string $template 模板文件名
+     * @param array  $vars     模板输出变量
+     * @param array  $replace  模板替换
+     * @param array  $config   模板参数
+     * @return mixed
+     */
+    protected function fetch($template = '', $vars = [], $replace = [], $config = [])
+    {
+        return $this->view->fetch($this->addon_path.$template.'.'.(Config::get('template.view_suffix')?:'html'), $vars, $replace, $config);
     }
     /**
      * 检查配置信息是否完整

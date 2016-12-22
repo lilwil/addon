@@ -1,16 +1,16 @@
 <?php
 namespace think\addon\controller;
 
-use think\Controller;
-use think\Lang;
 use think\Loader;
 use think\Log;
+use think\addon\traits\controller\Base;
 
 /**
  * 插件执行默认控制器
  */
-class Index extends Controller
+class Index
 {
+    use Base;
     // 当前插件操作
     protected $addon;
 
@@ -21,8 +21,9 @@ class Index extends Controller
     /**
      * 插件初始化
      */
-    public function _initialize()
+    public function __construct()
     {
+        $this->_baseInit();
         // 日志初始化
         Log::init([
             'type' => 'File',
@@ -31,8 +32,6 @@ class Index extends Controller
         $this->addon = Loader::parseName($this->request->param('_addon/s', ''), 1);
         $this->controller = Loader::parseName($this->request->param('_controller/s', ''), 1);
         $this->action = $this->request->param('_action/s', '');
-        // 加载插件语言包
-        Lang::load(__DIR__ . DS .'..'. DS.'lang' . DS . $this->request->langset() . EXT);
     }
 
     /**
