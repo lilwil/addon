@@ -43,12 +43,12 @@ class Controller
             self::$view_instance = new View(Config::get('template'), Config::get('view_replace_str'));
         }
         $this->view = self::$view_instance;
+        //Base初始化
+        $this->_baseInit();
         //编译模版之前替换
         $this->view->config('tpl_replace_string',$this->tplReplaceString()); 
         // 视图模型配置
         $this->view->config('view_path',$this->addon_path.'view'.DS);
-        //Base初始化
-        $this->_baseInit();
         // 控制器初始化
         $this->_initialize();
         // 前置操作方法
