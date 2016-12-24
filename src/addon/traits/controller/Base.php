@@ -21,6 +21,8 @@ trait Base
      * @var \think\Request Request实例
      */
     protected $request;
+    
+    protected $error;
     /**
      * 初始化
      */
@@ -65,14 +67,22 @@ trait Base
      * @param string $name 读取参数名
      * @author @泛泛知惫 <lilwil@163.com>
      */
-    final protected function getConfig($name = '')
+    /**
+     * 
+     * 获取插件的配置数组
+     * @param string $name 读取参数名
+     * @param string $file 读取文件参数
+     */
+    final public function getConfig($name = '',$file = false)
     {
         static $config;
-        if (! empty($config) && ! $refresh) {
+        if (! empty($config) && ! $file) {
             return $config;
         }
-        $config = Db::name('addons')->where('status', 1)->where('name', $this->getName(1))->value('config');
-        if ($config) {
+        if (!$file) {
+            $config = Db::name('addons')->where('status', 1)->where('name', $this->getName(1))->value('config');
+        }
+        if (!$file && $config) {
             $config = json_decode($config, true);
         } else {
             if (is_file($this->config_file)) {
@@ -102,5 +112,12 @@ trait Base
             return Loader::parseName(explode('\\',get_class($this))[1],$type,$ucfirst);
         }
     }
-     
+    final public function getInfo($name = '')
+    {
+        return $this->info;
+    }
+    final public function getError()
+    {
+        return $this->error;
+    }
 }

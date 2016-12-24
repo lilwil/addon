@@ -18,9 +18,9 @@ abstract class Addon{
      // 参数配置所在控制器及方法
     protected $config_controller = 'Admin';
     protected $config_action = 'config';
-    protected $admin_list = [];
+    protected $assign_list = [];
     // 该项跟下面在有列表情况下必选其一
-    protected $custom_adminlist = '';
+    protected $adminlist_file = '';
     // view展示的fecth内容
     protected $view_fetch = '';
 
@@ -71,15 +71,6 @@ abstract class Addon{
             Log::record('[ ADDON ] 运行异常，请联系开发者！', 'error');
         }
     }
-    /**
-     * 获取当前错误信息
-     * @return mixed
-     */
-    final public function getError()
-    {
-        return $this->error;
-    }
-    
     // 必须实现安装
     abstract public function install();
     
