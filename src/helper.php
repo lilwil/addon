@@ -32,7 +32,7 @@ function get_addon_class($name, $type = 'hook')
             $namespace = "\\addons\\" . Loader::parseName($name) . "\\controller";
             break;
         default:
-            $namespace = "\\addons\\" . Loader::parseName($name) . "\\" . $name;
+            $namespace = "\\addons\\" . Loader::parseName($name) . "\\" . Loader::parseName($name,1);
     }
     return $namespace;
 }

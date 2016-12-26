@@ -114,7 +114,7 @@ trait Base
     }
     final public function getInfo($name = '')
     {
-        return $this->info;
+        return empty($name)?$this->info:$this->info[$name];
     }
     final public function getError()
     {
