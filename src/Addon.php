@@ -1,19 +1,15 @@
 <?php
+
 namespace think;
 
-use think\Request;
-use think\Config;
-use think\View;
-use think\Loader;
-use think\exception\TemplateNotFoundException;
-use think\App;
-use think\Log;
-use think\Db;
+
 use think\addon\traits\controller\Base;
+
 /**
- * 插件基类，一般用于不需要模版的情况，例如：api接口
+ * 插件基类，一般用于不需要模版的情况，例如：api接口.
  */
-abstract class Addon{
+abstract class Addon
+{
     use Base;
      // 参数配置所在控制器及方法
     protected $config_controller = 'Admin';
@@ -27,7 +23,7 @@ abstract class Addon{
     protected $access_url = [];
     // 需要的钩子列表
     protected $hook_list = [];
-    
+
     public function __construct()
     {
         $this->_baseInit();
@@ -36,44 +32,53 @@ abstract class Addon{
             $this->_initialize();
         }
     }
+
     /**
-     * 获取属性
-     * @access public
+     * 获取属性.
+     *
      * @param string $name 名称
+     *
      * @return mixed
      */
     public function __get($name)
     {
         return $this->$name;
     }
+
     /**
-     * 检查配置信息是否完整
+     * 检查配置信息是否完整.
+     *
      * @return bool
      */
-    final public function checkInfo(){
-        $info_check_keys = ['name','title','description','status','author','version'];
+    final public function checkInfo()
+    {
+        $info_check_keys = ['name', 'title', 'description', 'status', 'author', 'version'];
         foreach ($info_check_keys as $value) {
-            if(!array_key_exists($value, $this->info))
-                return FALSE;
+            if (!array_key_exists($value, $this->info)) {
+                return false;
+            }
         }
-        return TRUE;
+
+        return true;
     }
 
     /**
-     * 插件默认执行的方法
+     * 插件默认执行的方法.
+     *
      * @return mixed
      */
     final public function run()
     {
-        if (App::$debug){
-            Log::record('[ ADDON ] 插件' . $this->getName() .'运行异常，params:'. var_export($_SERVER, true), 'error');
-        }else {
+        if (App::$debug) {
+            Log::record('[ ADDON ] 插件'.$this->getName().'运行异常，params:'.var_export($_SERVER, true), 'error');
+        } else {
             Log::record('[ ADDON ] 运行异常，请联系开发者！', 'error');
         }
     }
+
     // 必须实现安装
     abstract public function install();
-    
+
     // 必须卸载插件方法
     abstract public function uninstall();
 }

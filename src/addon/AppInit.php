@@ -1,18 +1,19 @@
 <?php
+
 namespace think\addon;
 
 use think\App;
 use think\Cache;
 use think\Db;
 use think\Hook;
+
 // 初始化钩子信息
 class AppInit
 {
-
     public function run()
     {
         // 获取系统配置
-        $data = (App::$debug || ! Cache::has('addons_hooks')) ? [] : Cache::get('addons_hooks');
+        $data = (App::$debug || !Cache::has('addons_hooks')) ? [] : Cache::get('addons_hooks');
         if (empty($data)) {
             $addons = [];
             $hooks = Db::name('hooks')->order('id')->column('addons', 'name');
@@ -29,7 +30,7 @@ class AppInit
                     }
                 }
             }
-            ! App::$debug && ! empty($addons) && Cache::set('addons_hooks', $addons);
+            !App::$debug && !empty($addons) && Cache::set('addons_hooks', $addons);
         } else {
             Hook::import($data, false);
         }

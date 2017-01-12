@@ -1,12 +1,13 @@
 <?php
+
 namespace think\addon\controller;
 
+use think\addon\traits\controller\Base;
 use think\Loader;
 use think\Log;
-use think\addon\traits\controller\Base;
 
 /**
- * 插件执行默认控制器
+ * 插件执行默认控制器.
  */
 class Index
 {
@@ -19,7 +20,7 @@ class Index
     protected $action;
 
     /**
-     * 插件初始化
+     * 插件初始化.
      */
     public function __construct()
     {
@@ -27,7 +28,7 @@ class Index
         // 日志初始化
         Log::init([
             'type' => 'File',
-            'path' => RUNTIME_PATH . 'log' . DS . 'addons' . DS
+            'path' => RUNTIME_PATH.'log'.DS.'addons'.DS,
         ]);
         $this->addon = Loader::parseName($this->request->param('_addon/s', ''), 1);
         $this->controller = Loader::parseName($this->request->param('_controller/s', ''), 1);
@@ -35,13 +36,13 @@ class Index
     }
 
     /**
-     * 插件执行
+     * 插件执行.
      */
     public function execute()
     {
-        if (! empty($this->addon) && ! empty($this->controller) && ! empty($this->action)) {
+        if (!empty($this->addon) && !empty($this->controller) && !empty($this->action)) {
             // 获取类的命名空间
-            $class = get_addon_class($this->addon, 'controller') . "\\{$this->controller}";
+            $class = get_addon_class($this->addon, 'controller')."\\{$this->controller}";
             $model = new $class();
             if ($model === false) {
                 return $this->error(Lang::get('addon init fail'));
@@ -49,9 +50,10 @@ class Index
             // 调用操作
             return call_user_func([
                 $model,
-                $this->action
+                $this->action,
             ]);
         }
+
         return $this->error(Lang::get('addon cannot name or action'));
     }
 }
