@@ -1,5 +1,5 @@
 <?php
 /**
- * Addon English language package
+ * Addon English language package.
  */
 return [];
