@@ -2,7 +2,6 @@
 
 namespace think;
 
-
 use think\addon\traits\controller\Base;
 
 /**
