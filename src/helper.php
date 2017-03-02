@@ -17,7 +17,7 @@ if (!is_dir(ADDON_PATH)) {
     mkdir(ADDON_PATH, 0777, true);
 }
 // 在运行安装模块的时候，不再使用插件
-if (!defined(BIND_MODULE) || 'install' !== BIND_MODULE) {
+if (!defined('BIND_MODULE') || 'install' !== BIND_MODULE) {
     // 注册类的根命名空间
     Loader::addNamespace('addons', ADDON_PATH);
     // 注册初始化钩子行为
