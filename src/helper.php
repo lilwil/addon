@@ -25,11 +25,12 @@ if (!defined('BIND_MODULE') || 'install' !== BIND_MODULE) {
 }
 
 /**
- * 远程调用插件控制器的操作方法 
+ * 远程调用插件控制器的操作方法.
+ 
  * @param string $url
- * @param array $vars
+ * @param array|string|bool|null $vars
  */
-function addon($url,$vars=[])
+function addon($url,$vars)
 {
     $info   =   pathinfo($url);
     $action =   $info['basename'];
@@ -37,10 +38,7 @@ function addon($url,$vars=[])
     $class_name = 'addons\\'.Loader::parseName($module).'\controller\\'.$module;
     $class = Loader::controller($class_name);
     if ($class) {
-        if(is_string($vars)) {
-            parse_str($vars,$vars);
-        }
-        return call_user_func_array([&$class,$action.Config::get('action_suffix')],$vars);
+        return call_user_func([&$class,$action.Config::get('action_suffix')],$vars);
     }else {
         return false;
     }
