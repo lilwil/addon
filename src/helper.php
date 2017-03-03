@@ -23,6 +23,29 @@ if (!defined('BIND_MODULE') || 'install' !== BIND_MODULE) {
     // 注册初始化钩子行为
     Hook::add('app_init', 'think\addon\AppInit');
 }
+
+/**
+ * 远程调用插件控制器的操作方法 
+ * @param string $url
+ * @param array $vars
+ */
+function addon($url,$vars=[])
+{
+    $info   =   pathinfo($url);
+    $action =   $info['basename'];
+    $module =   $info['dirname'];
+    $class_name = 'addons\\'.Loader::parseName($module).'\controller\\'.$module;
+    $class = Loader::controller($class_name);
+    if ($class) {
+        if(is_string($vars)) {
+            parse_str($vars,$vars);
+        }
+        return call_user_func_array([&$class,$action.Config::get('action_suffix')],$vars);
+    }else {
+        return false;
+    }
+}
+
 /**
  * 获取插件类的类名.
  *
