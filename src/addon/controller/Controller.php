@@ -9,6 +9,7 @@ use think\Config;
 use think\exception\ValidateException;
 use think\View;
 use traits\controller\Jump;
+use think\Loader;
 
 class Controller
 {
