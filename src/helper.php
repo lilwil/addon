@@ -11,7 +11,8 @@ define('ADDON_PATH', ROOT_PATH.'addons'.DS);
 define('ADDON_STATIC', ROOT_PATH.'public'.DS.'addons'.DS);
 
 // 定义路由
-Route::rule('addon/execute', '\\think\\addon\\controller\\Index@execute');
+Route::rule('addon/execute/:_addon/:_controller/:_action', 'think\addon\controller\Index@execute');
+
 // 如果插件目录不存在则创建
 if (!is_dir(ADDON_PATH)) {
     mkdir(ADDON_PATH, 0777, true);
@@ -23,27 +24,24 @@ if (!defined('BIND_MODULE') || 'install' !== BIND_MODULE) {
     // 注册初始化钩子行为
     Hook::add('app_init', 'think\addon\AppInit');
 }
-
 /**
- * 远程调用插件控制器的操作方法.
-
- * @param string                 $url
+ * 远程调用插件控制器的操作方法 
+ * @param string $url
  * @param array|string|bool|null $vars
  */
-function addon($url, $vars)
+function addon($url,$vars)
 {
-    $info = pathinfo($url);
-    $action = $info['basename'];
-    $module = $info['dirname'];
+    $info   =   pathinfo($url);
+    $action =   $info['basename'];
+    $module =   $info['dirname'];
     $class_name = 'addons\\'.Loader::parseName($module).'\controller\\'.$module;
     $class = Loader::controller($class_name);
     if ($class) {
-        return call_user_func([&$class, $action.Config::get('action_suffix')], $vars);
-    } else {
+        return call_user_func([&$class,$action.Config::get('action_suffix')],$vars);
+    }else {
         return false;
     }
 }
-
 /**
  * 获取插件类的类名.
  *
@@ -109,5 +107,5 @@ function addons_url($url, $param = [])
         '_action'     => $action,
     ];
     $params = array_merge($params, $param); // 添加额外参数
-    return Url::build('/addon/execute', $params);
+    return Url::build('think\addon\controller\Index@execute', $params);
 }

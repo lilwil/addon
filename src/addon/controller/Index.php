@@ -5,7 +5,7 @@ namespace think\addon\controller;
 use think\addon\traits\controller\Base;
 use think\Loader;
 use think\Log;
-
+use think\Lang;
 /**
  * 插件执行默认控制器.
  */
@@ -33,6 +33,14 @@ class Index
         $this->addon = Loader::parseName($this->request->param('_addon/s', ''), 1);
         $this->controller = Loader::parseName($this->request->param('_controller/s', ''), 1);
         $this->action = $this->request->param('_action/s', '');
+        if (!$this->action) {
+            $dispatch = $this->request->dispatch();
+            if (isset($dispatch['var'])&&isset($dispatch['var']['_addon'])&&isset($dispatch['var']['_controller'])&&isset($dispatch['var']['_action'])) {
+                $this->addon = $dispatch['var']['_addon'];
+                $this->controller = $dispatch['var']['_controller'];
+                $this->action = $dispatch['var']['_action'];
+            }
+        }
     }
 
     /**
@@ -53,7 +61,6 @@ class Index
                 $this->action,
             ]);
         }
-
-        return $this->error(Lang::get('addon cannot name or action'));
+        return Lang::get('addon cannot name or action');
     }
 }

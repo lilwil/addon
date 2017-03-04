@@ -38,15 +38,15 @@ trait Base
         // 获取当前插件目录
         $this->addon_path = ADDON_PATH.$this->addon_name.DS;
         // 读取当前插件配置信息
-        if (is_file($this->addon_path.'config.php')) {
-            $this->config_file = $this->addon_path.'config.php';
+        if (is_file($this->addon_path.'config'.CONF_EXT)) {
+            $this->config_file = $this->addon_path.'config'.CONF_EXT;
         }
         // 读取当前插件的信息
         if (is_file($this->addon_path.'info.php')) {
-            $this->info = include $this->addon_path.'info.php';
+            $this->info = include $this->addon_path.'info'.EXT;
         }
         // 加载插件语言包
-        Lang::load(__DIR__.DS.'..'.DS.'lang'.DS.$this->request->langset().EXT);
+        Lang::load(realpath(__DIR__.DS.'..'.DS.'..').DS.'lang'.DS.$this->request->langset().EXT);
     }
 
     /**

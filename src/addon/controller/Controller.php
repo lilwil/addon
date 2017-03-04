@@ -180,6 +180,8 @@ class Controller
             $v = Loader::validate();
             $v->rule($validate);
         } else {
+            // 添加插件命名空间
+            $validate = '\\addons\\'.$this->addon_name.'\\validate\\'.$validate;
             if (strpos($validate, '.')) {
                 // 支持场景
                 list($validate, $scene) = explode('.', $validate);
