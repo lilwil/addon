@@ -51,15 +51,19 @@ class Index
         if (!empty($this->addon) && !empty($this->controller) && !empty($this->action)) {
             // 获取类的命名空间
             $class = get_addon_class($this->addon, 'controller')."\\{$this->controller}";
-            $model = new $class();
-            if ($model === false) {
-                return $this->error(Lang::get('addon init fail'));
+            $ob_class = new $class();
+            if ($ob_class === false) {
+                return Lang::get('addon init fail');
             }
-            // 调用操作
-            return call_user_func([
-                $model,
-                $this->action,
-            ]);
+            if (method_exists($ob_class,$this->action)) {
+                // 调用操作
+                return call_user_func([
+                    $ob_class,
+                    $this->action,
+                ]);
+            }else {
+                return '插件不完整';
+            }
         }
         return Lang::get('addon cannot name or action');
     }
