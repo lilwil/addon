@@ -7,9 +7,9 @@ namespace think\addon\controller;
 use think\addon\traits\controller\Base;
 use think\Config;
 use think\exception\ValidateException;
+use think\Loader;
 use think\View;
 use traits\controller\Jump;
-use think\Loader;
 
 class Controller
 {
