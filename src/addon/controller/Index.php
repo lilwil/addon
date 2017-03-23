@@ -3,9 +3,10 @@
 namespace think\addon\controller;
 
 use think\addon\traits\controller\Base;
+use think\Lang;
 use think\Loader;
 use think\Log;
-use think\Lang;
+
 /**
  * 插件执行默认控制器.
  */
@@ -35,7 +36,7 @@ class Index
         $this->action = $this->request->param('_action/s', '');
         if (!$this->action) {
             $dispatch = $this->request->dispatch();
-            if (isset($dispatch['var'])&&isset($dispatch['var']['_addon'])&&isset($dispatch['var']['_controller'])&&isset($dispatch['var']['_action'])) {
+            if (isset($dispatch['var']) && isset($dispatch['var']['_addon']) && isset($dispatch['var']['_controller']) && isset($dispatch['var']['_action'])) {
                 $this->addon = $dispatch['var']['_addon'];
                 $this->controller = $dispatch['var']['_controller'];
                 $this->action = $dispatch['var']['_action'];
@@ -55,16 +56,17 @@ class Index
             if ($ob_class === false) {
                 return Lang::get('addon init fail');
             }
-            if (method_exists($ob_class,$this->action)) {
+            if (method_exists($ob_class, $this->action)) {
                 // 调用操作
                 return call_user_func([
                     $ob_class,
                     $this->action,
                 ]);
-            }else {
+            } else {
                 return '插件不完整';
             }
         }
+
         return Lang::get('addon cannot name or action');
     }
 }
