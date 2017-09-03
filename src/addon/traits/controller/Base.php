@@ -54,14 +54,13 @@ trait Base
      */
     private function tplReplaceString()
     {
-        return [
-            '__COMMON__'  => __ROOT__.'/static/common',
-            '__IMG__'     => __ROOT__.'/addons/'.$this->addon_name.'/images',
-            '__CSS__'     => __ROOT__.'/addons/'.$this->addon_name.'/css',
-            '__JS__'      => __ROOT__.'/addons/'.$this->addon_name.'/js',
-            '__PUBLIC__'  => __ROOT__.'/addons/'.$this->addon_name,
-            '__UPLOADS__' => __ROOT__.'/uploads',
-            '__ROOT__'    => __ROOT__,
+         return [
+            '__COMMON__' => PUBLIC_URL . '/static/common',
+            '__IMG__' => PUBLIC_URL . '/addons/' . $this->addon_name . '/images',
+            '__CSS__' => PUBLIC_URL . '/addons/' . $this->addon_name . '/css',
+            '__JS__' => PUBLIC_URL . '/addons/' . $this->addon_name . '/js',
+            '__PUBLIC__' => PUBLIC_URL . '/addons/' . $this->addon_name,
+            '__UPLOADS__' => PUBLIC_URL.'/uploads'
         ];
     }
 
