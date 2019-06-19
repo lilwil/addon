@@ -13,13 +13,4 @@ abstract class UpgradeBase
     // 实现升级异常的回滚代码
     abstract public function rollback();
 
-    /**
-     * 返回错误信息.
-     *
-     * @return type
-     */
-    public function getError()
-    {
-        return $this->error;
-    }
 }
