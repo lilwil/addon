@@ -10,6 +10,8 @@
 
     // 注册类的根命名空间
     Loader::addNamespace('yicmf', __DIR__);
+    // 注册路由
+    Route::rule('addon/execute/:_addon/:_controller/:_action', 'yicmf\addon\controller\Index@execute');
     if (is_file(Env::get('root_path') . 'data' . DIRECTORY_SEPARATOR . 'install.lock')) {
         // 注册初始化钩子行为
         Hook::add('app_init', 'yicmf\addon\AppInit');
@@ -95,5 +97,3 @@
         $params = array_merge($params, $param); // 添加额外参数
         return Url::build('yicmf\addon\controller\Index@execute', $params,true,true);
     }
-
-
