@@ -12,6 +12,7 @@
     namespace yicmf\addon\controller;
 
     use traits\controller\Jump;
+    use yicmf\Addon;
 
     class ForeignController
     {

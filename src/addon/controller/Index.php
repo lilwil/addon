@@ -44,7 +44,7 @@
         /**
          * 插件执行.
          */
-        public function index()
+        public function execute()
         {
             if (!empty($this->addon) && !empty($this->controller) && !empty($this->action)) {
                 // 获取类的命名空间
