@@ -1,6 +1,6 @@
 <?php
 
-    namespace think\addon\controller;
+    namespace yicmf\addon\controller;
 
     use think\Container;
     use think\facade\Lang;

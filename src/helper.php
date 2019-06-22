@@ -1,17 +1,18 @@
 <?php
 
     use think\facade\Config;
+    use think\facade\Env;
     use think\Loader;
     use think\facade\Url;
     use app\ucenter\model\User;
 
     use think\facade\Hook;
 
+    // 注册类的根命名空间
+    Loader::addNamespace('yicmf', __DIR__);
     if (is_file(Env::get('root_path') . 'data' . DIRECTORY_SEPARATOR . 'install.lock')) {
-
         // 注册初始化钩子行为
-        Hook::add('app_init', 'think\addon\AppInit');
-
+        Hook::add('app_init', 'yicmf\addon\AppInit');
     }
 
     /**
@@ -62,7 +63,6 @@
         $class = get_addon_class($name);
         if ( class_exists($class) ) {
             $addon = new $class();
-
             return $addon->getConfig();
         } else {
             return [];
@@ -93,8 +93,7 @@
             '_action' => $action,
         ];
         $params = array_merge($params, $param); // 添加额外参数
-
-        return \think\facade\Url::build('think\addon\controller\Index@execute', $params);
+        return Url::build('yicmf\addon\controller\Index@execute', $params,true,true);
     }
 
 

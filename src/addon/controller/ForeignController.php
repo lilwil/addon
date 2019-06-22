@@ -9,7 +9,7 @@
     // +----------------------------------------------------------------------
 
 
-    namespace think\addon\controller;
+    namespace yicmf\addon\controller;
 
     use traits\controller\Jump;
 

@@ -8,11 +8,12 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace think\addon\controller;
+    namespace yicmf\addon\controller;
 
     use traits\controller\Jump;
     use app\ucenter\event\User;
     use app\common\traits\controller\Bjui;
+    use yicmf\Addon;
 
     class AdminController
     {

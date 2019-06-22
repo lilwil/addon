@@ -8,7 +8,7 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace think;
+    namespace yicmf;
 
     use think\facade\Env;
     use think\facade\App;
