@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "yicmf\\": "src/",
+            "yicmf\\addon\\": "src/"
         },
         "files": [
             "src/helper.php"
