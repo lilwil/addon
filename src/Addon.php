@@ -6,7 +6,7 @@
     // +----------------------------------------------------------------------
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
-    namespace yicmf;
+    namespace yicmf\addon;
 
     use think\facade\Env;
     use think\facade\App;
@@ -94,7 +94,7 @@
             $this->addon_name = $this->getName();
             // 获取当前插件目录
             $this->addon_path = Env::get('addon_path') . $this->addon_name . DIRECTORY_SEPARATOR;
-            $this->tpl_path = __DIR__ . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR ;
+            $this->tpl_path = __DIR__ . DIRECTORY_SEPARATOR ;
             // 当前插件配置文件
             $this->config_file = $this->addon_path . 'data' . DIRECTORY_SEPARATOR . 'config' . App::getConfigExt();
             // 当前插件的文件

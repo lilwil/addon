@@ -13,7 +13,7 @@
     use traits\controller\Jump;
     use app\ucenter\event\User;
     use app\common\traits\controller\Bjui;
-    use yicmf\Addon;
+    use yicmf\addon\Addon;
 
     class AdminController
     {

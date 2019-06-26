@@ -8,9 +8,9 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace yicmf\event;
+    namespace yicmf\addon\event;
 
-    use app\addon as AddonController;
+    use app\addon\Addon as AddonController;
     use app\common\model\Addon as AddonModel;
     use app\common\validate\Addon as AddonValidate;
     use app\common\model\Hook as HookModel;
