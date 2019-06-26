@@ -8,7 +8,7 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace yicmf\addon;
+    namespace app\addon;
 
     use think\Exception;
 

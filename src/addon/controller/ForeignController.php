@@ -9,7 +9,7 @@
     // +----------------------------------------------------------------------
 
 
-    namespace yicmf\addon\controller;
+    namespace app\addon\controller;
 
     use traits\controller\Jump;
     use yicmf\Addon;

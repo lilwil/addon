@@ -97,3 +97,5 @@
         $params = array_merge($params, $param); // 添加额外参数
         return Url::build('yicmf\addon\controller\Index@execute', $params,true,true);
     }
+
+

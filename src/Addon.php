@@ -1,5 +1,4 @@
 <?php
-
     // +----------------------------------------------------------------------
     // | 插件
     // +----------------------------------------------------------------------
@@ -7,7 +6,6 @@
     // +----------------------------------------------------------------------
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
-
     namespace yicmf;
 
     use think\facade\Env;
@@ -96,7 +94,7 @@
             $this->addon_name = $this->getName();
             // 获取当前插件目录
             $this->addon_path = Env::get('addon_path') . $this->addon_name . DIRECTORY_SEPARATOR;
-            $this->tpl_path = Env::get('root_path') . 'application' . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR;
+            $this->tpl_path = __DIR__ . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR ;
             // 当前插件配置文件
             $this->config_file = $this->addon_path . 'data' . DIRECTORY_SEPARATOR . 'config' . App::getConfigExt();
             // 当前插件的文件
@@ -104,8 +102,8 @@
             // 控制器初始化
             $this->initialize();
             // 前置操作方法
-            if ( $this->beforeActionList ) {
-                foreach ( $this->beforeActionList as $method => $options ) {
+            if ($this->beforeActionList) {
+                foreach ($this->beforeActionList as $method => $options) {
                     is_numeric($method) ?
                         $this->beforeAction($options) :
                         $this->beforeAction($method, $options);
@@ -119,23 +117,23 @@
 
         /**
          * 前置操作.
-         * @param string $method  前置操作方法名
+         * @param string $method 前置操作方法名
          * @param array  $options 调用参数 ['only'=>[...]] 或者['except'=>[...]]
          */
         protected function beforeAction($method, $options = [])
         {
-            if ( isset($options['only']) ) {
-                if ( is_string($options['only']) ) {
+            if (isset($options['only'])) {
+                if (is_string($options['only'])) {
                     $options['only'] = explode(',', $options['only']);
                 }
-                if ( !in_array($this->request->action(), $options['only']) ) {
+                if (!in_array($this->request->action(), $options['only'])) {
                     return;
                 }
-            } elseif ( isset($options['except']) ) {
-                if ( is_string($options['except']) ) {
+            } elseif (isset($options['except'])) {
+                if (is_string($options['except'])) {
                     $options['except'] = explode(',', $options['except']);
                 }
-                if ( in_array($this->request->action(), $options['except']) ) {
+                if (in_array($this->request->action(), $options['except'])) {
                     return;
                 }
             }
@@ -145,8 +143,8 @@
         /**
          * 加载模板输出.
          * @param string $template 模板文件名
-         * @param array  $vars     模板输出变量
-         * @param array  $config   模板参数
+         * @param array  $vars 模板输出变量
+         * @param array  $config 模板参数
          * @param bool   $renderContent
          * @return mixed|string
          * @throws \Exception
@@ -175,9 +173,9 @@
         /**
          * 渲染内容输出
          * @param string $content 模板内容
-         * @param array  $vars    模板输出变量
+         * @param array  $vars 模板输出变量
          * @param array  $replace 替换内容
-         * @param array  $config  模板参数
+         * @param array  $config 模板参数
          * @return mixed
          * @author  : 微尘 <yicmf@qq.com>
          * @datetime: 2019/5/4 9:44
@@ -189,7 +187,7 @@
 
         /**
          * 模板变量赋值
-         * @param mixed $name  要显示的模板变量
+         * @param mixed $name 要显示的模板变量
          * @param mixed $value 变量的值
          * @return void
          */
@@ -216,57 +214,51 @@
         protected function validateFailException($fail = true)
         {
             $this->failException = $fail;
-
             return $this;
         }
 
         /**
          * 验证数据
          * @access protected
-         * @param  array        $data     数据
-         * @param  string|array $validate 验证器名或者验证规则数组
-         * @param  array        $message  提示信息
-         * @param  bool         $batch    是否批量验证
-         * @param  mixed        $callback 回调方法（闭包）
+         * @param array        $data 数据
+         * @param string|array $validate 验证器名或者验证规则数组
+         * @param array        $message 提示信息
+         * @param bool         $batch 是否批量验证
+         * @param mixed        $callback 回调方法（闭包）
          * @return array|string|true
          * @throws ValidateException
          */
         protected function validate($data, $validate, $message = [], $batch = false, $callback = null)
         {
-            if ( is_array($validate) ) {
+            if (is_array($validate)) {
                 $v = $this->app->validate();
                 $v->rule($validate);
             } else {
-                if ( strpos($validate, '.') ) {
+                if (strpos($validate, '.')) {
                     // 支持场景
                     list($validate, $scene) = explode('.', $validate);
                 }
                 $v = $this->app->validate($validate);
-                if ( !empty($scene) ) {
+                if (!empty($scene)) {
                     $v->scene($scene);
                 }
             }
-
             // 是否批量验证
-            if ( $batch || $this->batchValidate ) {
+            if ($batch || $this->batchValidate) {
                 $v->batch(true);
             }
-
-            if ( is_array($message) ) {
+            if (is_array($message)) {
                 $v->message($message);
             }
-
-            if ( $callback && is_callable($callback) ) {
+            if ($callback && is_callable($callback)) {
                 call_user_func_array($callback, [$v, &$data]);
             }
-
-            if ( !$v->check($data) ) {
-                if ( $this->failException ) {
+            if (!$v->check($data)) {
+                if ($this->failException) {
                     throw new ValidateException($v->getError());
                 }
                 return $v->getError();
             }
-
             return true;
         }
 
@@ -280,14 +272,14 @@
         final public function getConfig($name = '')
         {
             static $config;
-            if ( empty($config) ) {
-                if ( is_file($this->config_file) ) {
+            if (empty($config)) {
+                if (is_file($this->config_file)) {
                     $config = include $this->config_file;
                 } else {
                     $config = [];
                 }
             }
-            if ( $name ) {
+            if ($name) {
                 return isset($config[$name]) ? $config[$name] : null;
             } else {
                 return $config;
@@ -305,21 +297,21 @@
         {
             try {
                 $config = $this->getConfig();
-                if ( is_array($config) && is_array($update) ) {
+                if (is_array($config) && is_array($update)) {
                     $config = array_merge($config, $update);
-                } elseif ( !$config && $update ) {
+                } elseif (!$config && $update) {
                     $config = $update;
                 }
                 // 配置文件模版
                 $config_tpl = file_get_contents($this->tpl_path . 'config.tpl');
                 $value_tpl = '';
-                foreach ( $config as $name => $value ) {
+                foreach ($config as $name => $value) {
                     $value_tpl .= '//注释
             ';
-                    if ( is_array($value) ) {
+                    if (is_array($value)) {
                         $temp = '[';
-                        foreach ( $value as $key2 => $value2 ) {
-                            if ( count($value) == ($key2 + 1) ) {
+                        foreach ($value as $key2 => $value2) {
+                            if (count($value) == ($key2 + 1)) {
                                 $temp .= '\'' . $value2 . '\'';
                             } else {
                                 $temp .= '\'' . $value2 . '\',';
@@ -342,7 +334,7 @@
                 // 返回订单数据
                 $data['code'] = 0;
                 $data['message'] = '更新成功';
-            } catch ( \Exception $e ) {
+            } catch (\Exception $e) {
                 $data['code'] = 1;
                 $data['message'] = $e->getMessage();
             }
@@ -351,7 +343,7 @@
 
         /**
          * 获取当前所属插件名
-         * @param int  $type    转换类型
+         * @param int  $type 转换类型
          * @param bool $ucfirst 首字母是否大写（驼峰规则）
          * @return string
          * @author  : 微尘 <yicmf@qq.com>
@@ -359,7 +351,7 @@
          */
         final protected function getName($type = 0, $ucfirst = true)
         {
-            if ( $this->request->has('_addon/s') ) {
+            if ($this->request->has('_addon/s')) {
                 return Loader::parseName($this->request->param('_addon/s', ''), $type, $ucfirst);
             } else {
                 return Loader::parseName(explode('\\', get_class($this))[1], $type, $ucfirst);
@@ -368,7 +360,7 @@
 
         final public function getInfo($name = '')
         {
-            if ( is_file($this->info_file) ) {
+            if (is_file($this->info_file)) {
                 $info = include $this->info_file;
             } else {
                 $info = [];
