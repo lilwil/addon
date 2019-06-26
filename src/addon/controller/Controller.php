@@ -8,7 +8,7 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace app\addon\controller;
+    namespace yicmf\addon\controller;
 
     use traits\controller\Jump;
     use yicmf\Addon;

@@ -8,7 +8,7 @@
     // | Author: 微尘 <yicmf@qq.com>
     // +----------------------------------------------------------------------
 
-    namespace app\event;
+    namespace yicmf\event;
 
     use app\addon as AddonController;
     use app\common\model\Addon as AddonModel;
