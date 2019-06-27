@@ -15,7 +15,6 @@
 
     abstract class Controller
     {
-
         use Addon, Jump;
         // 后台专用控制器
         public $admin_controller = 'Admin';
