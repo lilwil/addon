@@ -11,7 +11,7 @@
     namespace yicmf\addon\controller;
 
     use traits\controller\Jump;
-    use yicmf\Addon;
+    use yicmf\addon\Addon;
 
     abstract class Controller
     {
