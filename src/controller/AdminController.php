@@ -10,15 +10,15 @@
 
     namespace yicmf\addon\controller;
 
+    use app\common\traits\controller\Admin;
     use traits\controller\Jump;
     use app\ucenter\event\User;
-    use app\common\traits\controller\Bjui;
     use yicmf\addon\Addon;
 
     class AdminController
     {
 
-        use Addon, Jump, Bjui;
+        use Addon, Jump, Admin;
 
         /**
          * 初始化
