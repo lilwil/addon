@@ -7,13 +7,10 @@
     use app\ucenter\model\User;
 
     use think\facade\Hook;
-
-    // 注册类的根命名空间 
-    // 注册路由
-    Route::rule('addon/execute/:_addon/:_controller/:_action', 'yicmf\addon\controller\Index@execute');
+ 
     if (is_file(Env::get('root_path') . 'data' . DIRECTORY_SEPARATOR . 'install.lock')) {
         // 注册初始化钩子行为
-        Hook::add('app_init', 'yicmf\addon\AppInit');
+        Hook::add('app_init', 'yicmf\addon\AddonInit');
     }
 
     /**

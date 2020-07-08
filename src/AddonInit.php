@@ -10,7 +10,7 @@
     use think\facade\Hook;
     use think\facade\Route;
 
-    class AppInit
+    class AddonInit
     {
 
         /**
@@ -21,16 +21,23 @@
          */
         public function run()
         {
-            // 插件目录
-            Env::set('addon_path', Env::get('root_path') . 'addon' . DIRECTORY_SEPARATOR);
-            // 安全目录
-            //        Env::set('addon_static',Env::get('root_path').'public'.DIRECTORY_SEPARATOR.'static'.DIRECTORY_SEPARATOR.'addon'.DIRECTORY_SEPARATOR);
-            Env::set('addon_static', Env::get('root_path') . 'static' . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR);
             // 定义路由
             Route::rule('addon/execute/:_addon/:_controller/:_action', 'yicmf\addon\controller\Index@index');
+            // 插件目录
+            Env::set('addon_path', Env::get('root_path') . 'addon' . DIRECTORY_SEPARATOR);
             // 如果插件目录不存在则创建
             if (!is_dir(Env::get('addon_path'))) {
                 mkdir(Env::get('addon_path'), 0777, true);
+            }
+            if ('cli' != PHP_SAPI) {
+                if ($_SERVER['DOCUMENT_ROOT'] && (strlen($_SERVER['DOCUMENT_ROOT']) - 7) == strpos($_SERVER['DOCUMENT_ROOT'], '/public')) {
+                    //SCRIPT_FILENAME
+                    Env::set('addon_static', Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR);
+                } else {
+                    Env::set('addon_static', Env::get('root_path') . 'addon' . DIRECTORY_SEPARATOR);
+                }
+            } else {
+                Env::set('addon_static', Env::get('root_path') . 'public' . DIRECTORY_SEPARATOR . 'addon' . DIRECTORY_SEPARATOR);
             }
             // 注册类的根命名空间
             Loader::addNamespace('addon', Env::get('addon_path'));
