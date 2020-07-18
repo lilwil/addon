@@ -15,7 +15,6 @@
 
         /**
          * 入口文件
-         * @throws \think\Exception
          * @author  : 微尘 <yicmf@qq.com>
          * @datetime: 2019/4/27 21:29
          */
