@@ -28,7 +28,7 @@
          */
         protected function initialize()
         {
-            if ( !User::isLogin() ) {
+            if ( !$this->request->user) {
                 return $this->ajax(300, '当前用户未登录');
             }
         }

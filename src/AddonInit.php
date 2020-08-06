@@ -20,8 +20,8 @@
          */
         public function run()
         {
-            // 定义路由
-            Route::rule('addon/execute/:_addon/:_controller/:_action', 'yicmf\addon\controller\Index@index');
+
+            Route::rule('addon/:_addon/:_controller/:_action', 'yicmf\addon\controller\Index@execute');
             // 插件目录
             Env::set('addon_path', Env::get('root_path') . 'addon' . DIRECTORY_SEPARATOR);
             // 如果插件目录不存在则创建

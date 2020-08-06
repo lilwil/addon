@@ -4,10 +4,8 @@
     use think\facade\Env;
     use think\Loader;
     use think\facade\Url;
-    use app\ucenter\model\User;
-
     use think\facade\Hook;
- 
+
     if (is_file(Env::get('root_path') . 'data' . DIRECTORY_SEPARATOR . 'install.lock')) {
         // 注册初始化钩子行为
         Hook::add('app_init', 'yicmf\addon\AddonInit');
@@ -26,7 +24,7 @@
         $class_name = 'addon\\' . Loader::parseName($module) . '\controller\\' . $module;
         $class = Loader::controller($class_name);
         if ( $class ) {
-            return call_user_func([&$class, $action . \think\facade\Config::get('action_suffix')], $vars);
+            return call_user_func([&$class, $action . Config::get('action_suffix')], $vars);
         } else {
             return false;
         }
