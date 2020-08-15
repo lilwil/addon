@@ -10,8 +10,8 @@
 
     namespace yicmf\addon\event;
 
-    use app\addon\Addon as AddonController;
-    use app\common\model\Addon as AddonModel;
+    use yicmf\addon\controller\Controller as AddonController;
+    use yicmf\addon\model\Addon as AddonModel;
     use app\common\validate\Addon as AddonValidate;
     use app\common\model\Hook as HookModel;
     use app\admin\model\Menu as MenuModel;
@@ -76,7 +76,6 @@
         /**
          * 刷新插件列表，一般用于本地上传新的插件或者插件有改动需要更新信息
          * @return mixed
-         * @throws \Exception
          * @author  : 微尘 <yicmf@qq.com>
          * @datetime: 2019/4/12 15:55
          */
@@ -84,39 +83,35 @@
         {
             try {
                 $dirs = array_map('basename', glob(Env::get('addon_path') . '*', GLOB_ONLYDIR));
-                if ( $dirs === false || !file_exists(Env::get('addon_path')) ) {
-                    throw new \Exception('插件目录不可读或者不存在');
+                if ($dirs === false || !file_exists(Env::get('addon_path'))) {
+                    throw new Exception('插件目录不可读或者不存在');
                 }
-                foreach ( $dirs as $value ) {
+                foreach ($dirs as $value) {
                     $this->addon_name = $value;
-                    $addonObj = $this->getAddonObject();
-                    if ( $addonObj === false ) {
-                        throw new \Exception('插件' . $value . '的入口文件不存在！');
-                    }
+                    // 初始化插件
+                    $this->initAddonObject();
+                    $info = $this->addon_obj->getInfo();
                     // 获取插件配置
-                    if ( $addonObj->getInfo('identifier') ) {
-                        $addon = AddonModel::where('identifier', $addonObj->getInfo('identifier'))->where('status', 'in', '0,1')->find();
-                        if ( !$addon ) {
-                            $insert = $addonObj->getInfo();
-                            $insert['config'] = $addonObj->getConfig();
-                            AddonModel::create($insert);
-                        } elseif ( 0 == $addon['status'] ) {
-                            // 没有安装的更新配置信息
-                            $addon['config'] = $addonObj->getConfig();
-                            $addon->save();
+                    if (isset($info['identifier'])) {
+                        $addon = AddonModel::where('identifier', $info['identifier'])->where('status', 'in', '0,1')->find();
+                        $info['has_config'] = (count($this->addon_obj->getConfig()) > 0) ? 1 : 0;
+                        if (!$addon) {
+                            AddonModel::create($info);
                         } else {
                             // 已经安装的暂不处理
+                            $addon->save($info);
                         }
                     }
                 }
                 $data['code'] = 0;
                 $data['message'] = '刷新成功';
-            } catch ( Exception $e ) {
+            } catch (Exception $e) {
                 $data['code'] = 1;
                 $data['message'] = $e->getMessage();
             }
             return $data;
         }
+
 
         /**
          * 插件升级

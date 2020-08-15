@@ -3,7 +3,7 @@
     namespace yicmf\addon;
 
     use app\common\model\Hook as HookModel;
-    use app\common\model\Addon as AddonModel;
+    use yicmf\addon\model\Addon as AddonModel;
     use think\facade\Env;
     use think\facade\Cache;
     use think\Loader;
