@@ -296,16 +296,10 @@
         final public function setConfig($update)
         {
             try {
-                $config = $this->getConfig();
-                if (is_array($config) && is_array($update)) {
-                    $config = array_merge($config, $update);
-                } elseif (!$config && $update) {
-                    $config = $update;
-                }
                 // 配置文件模版
                 $config_tpl = file_get_contents($this->tpl_path . 'config.tpl');
                 $value_tpl = '';
-                foreach ($config as $name => $value) {
+                foreach ($update as $name => $value) {
                     $value_tpl .= '//注释
             ';
                     if (is_array($value)) {

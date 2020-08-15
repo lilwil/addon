@@ -28,6 +28,7 @@
          */
         protected function initialize()
         {
+            $this->request->user = User::getLogin('admin');
             if ( !$this->request->user) {
                 return $this->ajax(300, '当前用户未登录');
             }
