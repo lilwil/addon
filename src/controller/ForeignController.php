@@ -15,6 +15,5 @@
 
 	class ForeignController
 	{
-
 		use Addon, Jump;
 	}
