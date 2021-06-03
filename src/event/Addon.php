@@ -12,8 +12,8 @@
 
 	use yicmf\addon\controller\Controller as AddonController;
 	use yicmf\addon\model\Addon as AddonModel;
-	use app\common\validate\Addon as AddonValidate;
-	use app\common\model\Hook as HookModel;
+	use app\admin\validate\Addon as AddonValidate;
+	use app\admin\model\Hook as HookModel;
 	use app\admin\model\Menu as MenuModel;
 	use app\admin\validate\Menu as MenuValidate;
 	use think\facade\App;

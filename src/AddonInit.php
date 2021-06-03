@@ -10,7 +10,7 @@
 
 	namespace yicmf\addon;
 
-	use app\common\model\Hook as HookModel;
+	use app\admin\model\Hook as HookModel;
 	use yicmf\addon\model\Addon as AddonModel;
 	use think\facade\Env;
 	use think\facade\Cache;
