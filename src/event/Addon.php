@@ -12,7 +12,7 @@
 
 	use yicmf\addon\controller\Controller as AddonController;
 	use yicmf\addon\model\Addon as AddonModel;
-	use app\admin\validate\Addon as AddonValidate;
+	use yicmf\addon\validate\Addon as AddonValidate;
 	use app\admin\model\Hook as HookModel;
 	use app\admin\model\Menu as MenuModel;
 	use app\admin\validate\Menu as MenuValidate;
@@ -40,8 +40,8 @@
 		 */
 		protected $addon_name;
 		/**
-		 * 插件模型.
-		 * @var Addon
+		 * 插件模型
+		 * @var AddonModel
 		 */
 		protected $addon_model;
 		/**
@@ -88,9 +88,10 @@
 					throw new Exception('插件目录不可读或者不存在');
 				}
 				foreach ($dirs as $value) {
-					$this->addon_name = $value;
-					// 初始化插件
-					$this->initAddonObject();
+					$this->addon_name = Loader::parseName($value, 1);
+					$this->getAddonObject();
+					// 刷新插件
+					$this->_initModel(true);
 					$info = $this->addon_obj->getInfo();
 					// 获取插件配置
 					if (isset($info['identifier'])) {
@@ -127,9 +128,9 @@
 				// 启动事务
 				Db::startTrans();
 				//实例化插件入口类
-				$this->getAddonObject($addon_name);
+				$this->getAddonObject();
 				//获取model数据
-				$this->_initModel($addon_name);
+				$this->_initModel();
 				if (!$this->__isInstall()) {
 					throw new Exception('当前插件未安装');
 				}
@@ -252,26 +253,31 @@
 		/**
 		 * 初始化模型数据
 		 * @throws Exception
-		 * @throws \think\db\exception\DataNotFoundException
-		 * @throws \think\db\exception\ModelNotFoundException
-		 * @throws \think\exception\DbException
 		 * @author  : 微尘 <yicmf@qq.com>
 		 * @datetime: 2019/4/12 15:53
 		 */
-		protected function _initModel()
+		protected function _initModel($refresh = false)
 		{
 			$this->addon_model = AddonModel::where('name', $this->addon_name)->where('status', 'in', '0,1')->find();;
-			if (!$this->addon_model) {
+			if (!$this->addon_model || $refresh) {
 				//新下载，新增相关数据
-				$validate = new AddonValidate();
 				$data = $this->addon_obj->getInfo();
+				if ($this->addon_model) {
+					$data['id'] = $this->addon_model['id'];
+				}
+				$validate = new AddonValidate();
 				$result = $validate->check($data);
 				if (true !== $result) {
-					throw new Exception('插件数据错误：' . $result);
+					throw new Exception('插件数据错误：' . $this->addon_name . $validate->getError());
 				} else {
-					$this->addon_model = AddonModel::create($data);
-					if (!$this->addon_model) {
-						throw new Exception('插件数据初始化异常');
+					if ($this->addon_model) {
+						$addon = new AddonModel();
+						$addon->save($this->addon_obj->getInfo(), ['id' => $this->addon_model['id']]);
+					} else {
+						$this->addon_model = AddonModel::create($data);
+						if (!$this->addon_model) {
+							throw new Exception('插件数据初始化异常');
+						}
 					}
 				}
 			}
@@ -334,7 +340,7 @@
 		 */
 		protected function _removeAddonMenu()
 		{
-			if (!$this->addon_model['has_adminlist']) {
+			if (!$this->addon_model['has_menu']) {
 				return true;
 			}
 			Cache::rm('system_menus_lists');
@@ -477,7 +483,7 @@
 					}
 					$hook = HookModel::where('name', $hook_name)->where('status', 1)->find();
 					if (!$hook) {
-						throw new \Exception('钩子缺失，无法安装当前插件');
+						throw new Exception('钩子缺失，无法安装当前插件');
 					}
 					$addons = $hook['addons'];
 					array_push($addons, $this->addon_name);
@@ -547,7 +553,7 @@
 		 */
 		protected function _addAddonMenu()
 		{
-			if (!$this->addon_model['has_adminlist']) {
+			if (!$this->addon_model['has_menu']) {
 				return true;
 			}
 			$info = $this->addon_obj->getInfo();
