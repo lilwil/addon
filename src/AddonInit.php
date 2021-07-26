@@ -49,7 +49,7 @@
 			Loader::addNamespace('addon', Env::get('addon_path'));
 			// 获取系统配置
 			$addon_hooks = !Cache::has('addon_hooks') ? [] : Cache::get('addon_hooks');
-			if (empty($addon_hooks)) {
+			if (empty($addon_hooks) || !is_array($addon_hooks)) {
 				$hooks = HookModel::order('id')->field('addons,name')->select();
 				foreach ($hooks as $hook) {
 					if (!empty($hook['addons'])) {
